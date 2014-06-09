@@ -1,0 +1,2498 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_argtrim.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/12/25 23:14:21 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:06:39 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	ft_argtrim(char **str)
+{
+	int		len;
+
+	if (str == NULL || *str == NULL || **str == '\0')
+		return ;
+	len = ft_strlen(*str) - 1;
+	if (**str == '"' && *(*str + len) == '"')
+	{
+		*(*str + len) = '\0';
+		*str += 1;
+	}
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 06:20:18 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:06:46 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int		ft_atoi(const char *str)
+{
+	int		result;
+	int		negative;
+	char	*save;
+	char	*trim;
+
+	result = 0;
+	trim = (str != NULL) ? ft_strtrim(str) : NULL;
+	if ((save = trim) == NULL || !*trim)
+		return (0);
+	negative = (*trim == '-') ? 1 : 0;
+	trim += (*trim == '-' || *trim == '+') ? 1 : 0;
+	while (*trim)
+	{
+		if (ft_isdigit(*trim))
+			result = result * 10 + (*trim - '0');
+		else
+			break ;
+		trim++;
+	}
+	result = negative ? result * -1 : result;
+	return (ft_free_return(result, &save));
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/19 12:49:25 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:06:51 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	ft_bzero(void *s, size_t n)
+{
+	ft_memset(s, 0, n);
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_ctoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2014/02/08 18:32:11 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:07:04 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_ctoa(int c)
+{
+	char	*str;
+
+	if ((str = (char *)malloc(sizeof(char) * 2)) == NULL)
+		return (NULL);
+	str[0] = c;
+	str[1] = '\0';
+	return (str);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_free_return.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/29 10:31:17 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:07:12 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int		ft_free_return(int ret, char **data)
+{
+	free(*data);
+	*data = NULL;
+	return (ret);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_free_strtab.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:07:20 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	ft_free_strtab(char ***str)
+{
+	int		i;
+
+	i = -1;
+	if (str == NULL || *str == NULL || **str == NULL)
+		return ;
+	while (*(*str + (++i)) != NULL)
+		free (*(*str + i));
+	if (*str != NULL)
+		free(*str);
+	*str = NULL;
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_ftoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apergens <apergens@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2014/02/13 19:08:51 by apergens          #+#    #+#             */
+/*   Updated: 2014/02/18 20:04:40 by apergens         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_ftoa(double n)
+{
+	int		one;
+	int		state;
+	char	*ptr;
+	char	*ret;
+	double	two;
+
+	state = (n < 0) ? 1 : 0;
+	ret = ft_itoa(n);
+	ptr = ft_strdup(".");
+	ret = ft_strfjoin(&ret, &ptr, 3);
+	n *= state ? -1 : 1;
+	one = (int)n;
+	two = n - one;
+	while (++state && (size_t)state < (sizeof(n) - 1))
+		two *= 10;
+	ptr = ft_itoa((int)two);
+	ret = ft_strfjoin(&ret, &ptr, 3);
+	return (ret);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_ilen.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/12/02 20:36:03 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:07:44 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+size_t	ft_ilen(int n)
+{
+	int		len;
+
+	len = 0;
+	if (n >= 10 || n <= -10)
+	{
+		n /= 10;
+		len++;
+	}
+	len += (n < 0) ? 1 : 0;
+	n *= (n < 0) ? -1 : 1;
+	if (!n)
+		return (1);
+	while (++len && n >= 10)
+		n /= 10;
+	return (len);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/20 20:55:19 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:07:50 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int		ft_isalnum(int c)
+{
+	if (ft_isalpha(c) || ft_isdigit(c))
+		return (1);
+	return (0);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/20 21:25:51 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:07:55 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+int		ft_isalpha(int c)
+{
+	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
+		return (1);
+	return (0);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_isascii.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/20 22:49:46 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:08:01 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+int		ft_isascii(int c)
+{
+	if (c >= 0 && c <= 127)
+		return (1);
+	return (0);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/20 22:39:41 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:08:08 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+int		ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_isgraph.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/20 22:51:52 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:08:14 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+int		ft_isgraph(int c)
+{
+	if (c >= 33 && c <= 126)
+		return (1);
+	return (0);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_islower.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/20 22:51:52 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:08:21 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+int		ft_islower(int c)
+{
+	if (c >= 'a' && c <= 'z')
+		return (1);
+	return (0);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_isprint.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/20 22:51:52 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:08:26 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int		ft_isprint(int c)
+{
+	if (c == ' ' || ft_isgraph(c))
+		return (1);
+	return (0);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_ispunct.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/20 22:51:52 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:08:33 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int		ft_ispunct(int c)
+{
+	if (c != ' ' && !ft_isalnum(c) && ft_isprint(c))
+		return (1);
+	return (0);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_isupper.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/20 22:51:52 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:08:39 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+int		ft_isupper(int c)
+{
+	if (c >= 'A' && c <= 'Z')
+		return (1);
+	return (0);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_isxdigit.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/20 22:39:41 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:08:46 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int		ft_isxdigit(int c)
+{
+	if (ft_isdigit(c) || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f'))
+		return (1);
+	return (0);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:08:55 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_itoa(int n)
+{
+	int		i;
+	int		state;
+	char	*result;
+
+	state = (n < 0) ? 1 : 0;
+	i = ft_ilen(n);
+	result = ft_memalloc(i + 1);
+	if (result != NULL && state)
+	{
+		i--;
+		*result = '-';
+		*(result + i) = ((n % 10) * -1) + '0';
+		n = (n / 10) * -1;
+	}
+	while (result != NULL && --i >= state - 1 && n >= 10)
+	{
+		*(result + i) = (n % 10) + '0';
+		n /= 10;
+	}
+	if (result != NULL && (n || !state))
+		*(result + i) = (n % 10) + '0';
+	return (result);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lstadd.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:09:02 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	ft_lstadd(t_list **alst, t_list *new)
+{
+	if (new == NULL)
+		return ;
+	new->next = *alst;
+	*alst = new;
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lstaddend.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:09:09 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	ft_lstaddend(t_list **alst, t_list *new)
+{
+	t_list	*tmp;
+
+	if (new == NULL)
+		return ;
+	tmp = *alst;
+	if (*alst != NULL)
+	{
+		while (tmp->next != NULL)
+			tmp = tmp->next;
+	}
+	tmp->next = new;
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lstcmp.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:09:19 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+t_list	*ft_lstcmp(t_list *lst, char *str)
+{
+	int		len;
+	int		start;
+
+	if (lst == NULL || str == NULL)
+		return (NULL);
+	start = 0;
+	len = ft_strlen(str);
+	while (!start++ || ((lst = lst->next) != NULL && lst->content != NULL))
+	{
+		if (!ft_memcmp(lst->content, str, len - 1))
+			return (lst);
+	}
+	return (NULL);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lstdel.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:09:30 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	ft_lstdel(t_list **alst, void (*del)(void *, size_t))
+{
+	t_list	*temp;
+	t_list	*next;
+
+	if (*alst == NULL)
+		return ;
+	temp = *alst;
+	while (temp)
+	{
+		if (del != NULL)
+			del(temp->content, temp->content_size);
+		next = temp->next;
+		free(temp);
+		temp = next;
+	}
+	*alst = NULL;
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:09:36 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	ft_lstdelone(t_list **alst, void (*del)(void *, size_t))
+{
+	if (*alst == NULL || del == NULL)
+		return ;
+	if (del != NULL)
+		del((*alst)->content, (*alst)->content_size);
+	free(*alst);
+	*alst = NULL;
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lstiter.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:09:43 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	ft_lstiter(t_list *lst, void (*f)(t_list *elem))
+{
+	t_list	*temp;
+
+	if (lst == NULL || f == NULL)
+		return ;
+	temp = lst;
+	while (temp)
+	{
+		f(temp);
+		temp = temp->next;
+	}
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lstlen.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:09:52 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+size_t	ft_lstlen(t_list *lst)
+{
+	size_t	i;
+
+	i = 0;
+	while (lst != NULL)
+	{
+		i++;
+		lst = lst->next;
+	}
+	return (i);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:09:59 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
+{
+	t_list	*ret;
+	t_list	*new;
+	t_list	*temp;
+
+	if (lst == NULL || f == NULL)
+		return (NULL);
+	new = NULL;
+	ret = NULL;
+	while (lst)
+	{
+		temp = f(lst);
+		temp = ft_lstnew(temp->content, temp->content_size);
+		if (new == NULL)
+		{
+			new = temp;
+			ret = temp;
+		}
+		else
+		{
+			new->next = temp;
+			new = new->next;
+		}
+		lst = lst->next;
+	}
+	return (ret);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:10:04 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+t_list	*ft_lstnew(const void *content, size_t content_size)
+{
+	t_list	*ret;
+
+	ret = (t_list *)malloc(sizeof(t_list));
+	if (ret != NULL)
+	{
+		if (content != NULL)
+		{
+			ret->content = ft_memalloc(content_size);
+			ft_memcpy(ret->content, content, content_size);
+		}
+		else
+			ret->content = NULL;
+		ret->content_size = (ret->content != NULL) ? content_size : 0;
+		ret->next = NULL;
+	}
+	return (ret);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lsttoa.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:10:10 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+static void		ft_lsttoa_normal(t_list *lst, char **str)
+{
+	while (lst != NULL)
+	{
+		if (lst->content != NULL)
+			ft_strcat(*str, (char *)lst->content);
+		if ((lst = lst->next) != NULL)
+			*(*str + ft_strlen(*str)) = '\n';
+	}
+	return ;
+}
+
+static void		ft_lsttoa_reverse(t_list *lst, char **str)
+{
+	if (lst->next != NULL)
+		ft_lsttoa_reverse(lst->next, str);
+	if (**str != '\0')
+	{
+		if (lst->content != NULL)
+			ft_strcat(*str, (char *)lst->content);
+		*(*str + ft_strlen(*str)) = '\n';
+	}
+	else if (lst->content != NULL)
+		ft_strcpy(*str, (char *)lst->content);
+	return ;
+}
+
+char			*ft_lsttoa(t_list *lst, int reverse)
+{
+	int		len;
+	char	*str;
+	t_list	*tmp;
+
+	len = 0;
+	if ((tmp = lst) == NULL)
+		return (NULL);
+	while (lst != NULL)
+	{
+		len += (lst->content != NULL) ? ft_strlen((char *)lst->content) + 1 : 0;
+		lst = lst->next;
+	}
+	lst = tmp;
+	str = ft_strnew(len);
+	if (len && reverse)
+		ft_lsttoa_reverse(lst, &str);
+	else if (len)
+		ft_lsttoa_normal(lst, &str);
+	return (str);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memalloc.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:15:15 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	*ft_memalloc(size_t size)
+{
+	char	*s;
+
+	s = (char *)malloc(size);
+	if (s == NULL)
+		return (NULL);
+	ft_memset(s, 0, size);
+	return (s);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memccpy.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/19 12:58:29 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:15:29 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	*ft_memccpy(void *s1, const void *s2, int c, size_t n)
+{
+	int		i;
+	char	*s1b;
+	char	*s2b;
+
+	i = -1;
+	s1b = (char *)s1;
+	s2b = (char *)s2;
+	while (++i < (int)n)
+	{
+		*(s1b + i) = *(s2b + i);
+		if (*(s2b + i) == c)
+			return (s1b + i + 1);
+	}
+	return (NULL);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/20 13:45:03 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:15:39 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	*ft_memchr(const void *s, int c, size_t n)
+{
+	size_t		i;
+	char		*sb;
+
+	i = 0;
+	sb = (char *)s;
+	while (++i <= n)
+	{
+		if (*(sb + (i - 1)) == (unsigned char)c)
+			return (sb + (i - 1));
+	}
+	return (NULL);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/20 13:45:03 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:15:52 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int		ft_memcmp(const void *s1, const void *s2, size_t n)
+{
+	int		i;
+	char	*s1b;
+	char	*s2b;
+
+	i = -1;
+	s1b = (char *)s1;
+	s2b = (char *)s2;
+	if (s1b == NULL || s2b == NULL)
+		return (0);
+	while (++i < (int)n && *(s1b + i) == *(s2b + i))
+		;
+	return (*(s1b + i) - *(s2b + i));
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/19 12:58:29 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:15:59 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	*ft_memcpy(void *s1, const void *s2, size_t n)
+{
+	size_t		i;
+	char		*s1b;
+	const char	*s2b;
+
+	i = 0;
+	s1b = (char *)s1;
+	s2b = (const char *)s2;
+	while (++i <= n)
+		*(s1b + (i - 1)) = *(s2b + (i - 1));
+	return (s1b);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memdel.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:16:05 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	ft_memdel(void **ap)
+{
+	free((char *)*ap);
+	*ap = NULL;
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/19 12:58:29 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:16:10 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	*ft_memmove(void *s1, const void *s2, size_t n)
+{
+	char	*temp;
+
+	temp = (char *)malloc(sizeof(char) * (ft_strlen(s2) + 1));
+	ft_memcpy(temp, s2, n);
+	ft_memcpy(s1, temp, n);
+	return (s1);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/19 11:42:03 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:16:17 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	*ft_memset(void *b, int c, size_t len)
+{
+	int			i;
+	char		*d;
+
+	i = -1;
+	d = (char *)b;
+	while (++i < (int)len)
+		*(d + i) = c;
+	return (d);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/21 08:56:14 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:16:24 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+/*
+** Writes a character to the console
+*/
+
+void	ft_putchar(char c)
+{
+	write(1, &c, 1);
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/21 08:56:14 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:16:30 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+/*
+** Writes a character to the console
+*/
+
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putchar_loop.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: apergens <apergens@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/21 08:56:14 by apergens          #+#    #+#             */
+/*   Updated: 2014/04/29 09:59:55 by apergens         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+/*
+** Writes a character to the console several times
+*/
+
+void	ft_putchar_loop(char c, int nbr)
+{
+	ft_putchar_loop_fd(c, STDIN_FILENO, nbr);
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putchar_loop_fd.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/21 08:56:14 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:16:41 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+/*
+** Writes a character to the console several times
+*/
+
+void	ft_putchar_loop_fd(char c, int fd, int nbr)
+{
+	char	*ptr;
+
+	ptr = (char *)malloc(sizeof(char) * (nbr + 1));
+	*(ptr + nbr) = '\0';
+	ft_memset(ptr, c, nbr);
+	ft_putstr_fd(ptr, fd);
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putendl.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/27 14:10:36 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:16:52 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	ft_putendl(char const *s)
+{
+	ft_putendl_fd(s, 1);
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/27 14:10:36 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:16:56 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	ft_putendl_fd(char const *s, int fd)
+{
+	ft_putstr_fd(s, fd);
+	ft_putstr_fd("\n", fd);
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putlst.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:17:04 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+static void		ft_putlst_reverse(t_list *lst, char *(*f)(int n), int i, int j)
+{
+	char	*ptr;
+
+	if (lst->next != NULL)
+		ft_putlst_reverse(lst->next, f, i + 1, j);
+	if (lst->content != NULL)
+	{
+		ft_putchar('\r');
+		ptr = f ? f((int)*((int *)lst->content)) : (char *)lst->content;
+		if (j)
+			ft_printf(" [\033[33m%d\033[0m] %s\n", i + 1, ptr);
+		else
+			ft_putendl(ptr);
+	}
+	return ;
+}
+
+void			ft_putlst(t_list *lst, char *(*f)(int n), int rev, int debug)
+{
+	int		start;
+	char	*ptr;
+
+	(void)debug;
+	if (lst == NULL || lst->content == NULL)
+		return ;
+	if (!(start = 0) && rev)
+	{
+		ft_putlst_reverse(lst, f, 0, debug);
+		return ;
+	}
+	while (!start++ || ((lst = lst->next) != NULL && lst->content != NULL))
+	{
+		ft_putchar('\r');
+		ptr = f ? f((int)*((int *)lst->content)) : (char *)lst->content;
+		if (debug)
+			ft_printf(" [\033[33m%d\033[0m] %s\n", start - 1, ptr);
+		else
+			ft_putendl(ptr);
+	}
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/21 08:56:14 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:17:12 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+/*
+** Writing a number in the console
+*/
+
+void	ft_putnbr(int n)
+{
+	ft_putnbr_fd(n, 1);
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/21 08:56:14 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:17:17 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+/*
+** Writing a number in the console
+*/
+
+void	ft_putnbr_fd(int n, int fd)
+{
+	char	*tmp;
+
+	if ((tmp = ft_itoa(n)))
+	{
+		ft_putstr_fd(tmp, fd);
+		ft_strdel(&tmp);
+	}
+	else
+		ft_putchar_fd('0', fd);
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/21 08:56:14 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:17:24 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+/*
+** Writes a character string to the console
+*/
+
+void	ft_putstr(const char *s)
+{
+	ft_putstr_fd(s, 1);
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/21 08:56:14 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:17:30 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+/*
+** Writes a character string to the console
+*/
+
+void	ft_putstr_fd(const char *s, int fd)
+{
+	char	*s2;
+
+	s2 = (char *)s;
+	while (*s2 != '\0')
+		ft_putchar_fd(*s2++, fd);
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_puttabstr.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:17:45 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	ft_puttabstr(char ***array)
+{
+	int		i;
+
+	i = -1;
+	while (*(*array + (++i)))
+		ft_putendl(*(*array + i));
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:17:53 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	*ft_realloc(void *ptr, size_t size)
+{
+	char	*s;
+
+	s = NULL;
+	if (ptr != NULL || size > 0)
+		s = (char *)malloc(size);
+	if (s == NULL)
+		return (NULL);
+	if (ptr != NULL)
+	{
+		free(ptr);
+		ft_memcpy(s, ptr, ft_strlen(ptr));
+	}
+	return (s);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/19 17:30:21 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:18:00 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strcat(char *s1, const char *s2)
+{
+	int		i;
+	int		len;
+
+	i = -1;
+	len = ft_strlen(s1);
+	while (*(s2 + ++i))
+		*(s1 + len + i) = *(s2 + i);
+	*(s1 + len + i) = '\0';
+	return (s1);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strcchr.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/21 00:30:43 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:18:08 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int		ft_strcchr(const char *s, int c)
+{
+	int		i;
+
+	i = 0;
+	while (*(s + (++i - 1)))
+	{
+		if (*(s + (i - 1)) == c)
+			return (i - 1);
+	}
+	if (*(s + (i - 1)) == c)
+		return (i - 1);
+	return (-1);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strcdup.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/19 09:16:55 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:18:51 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strcdup(const char *s1, int c)
+{
+	int		len;
+	char	*s2;
+
+	len = ft_strcchr(s1, c);
+	len = (len == -1) ? (int)ft_strlen(s1) : len;
+	s2 = (char *)malloc(sizeof(char) * (len + 1));
+	if (s2 == NULL)
+		return (NULL);
+	ft_strncpy(s2, (char *)s1, len);
+	*(s2 + len) = '\0';
+	return (s2);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/21 00:30:43 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:19:01 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strchr(const char *s, int c)
+{
+	int		i;
+
+	i = 0;
+	while (*(s + (++i - 1)))
+	{
+		if (*(s + (i - 1)) == c)
+			return ((char *)s + (i - 1));
+	}
+	if (*(s + (i - 1)) == c)
+		return ((char *)s + (i - 1));
+	return (NULL);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strclen.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/12/06 11:29:38 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:19:07 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+size_t	ft_strclen(const char *s, int c)
+{
+	size_t	i;
+
+	i = 0;
+	while (*(s + i) != c && *(s + i))
+		i++;
+	return (i);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strclr.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:19:13 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	ft_strclr(char *s)
+{
+	if (s == NULL)
+		return ;
+	ft_memset(s, '\0', ft_strlen(s));
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/20 13:45:03 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:19:19 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int		ft_strcmp(const char *s1, const char *s2)
+{
+	size_t		len;
+
+	len = ft_strlen(s1);
+	return (ft_strncmp(s1, s2, len));
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strcnew.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/12/25 23:14:21 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:19:25 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strcnew(char c, size_t n)
+{
+	char	*str;
+
+	if ((str = (char *)malloc(sizeof(char) * (n + 1))) == NULL)
+		return (NULL);
+	ft_memset((void *)str, c, n);
+	*(str + n) = '\0';
+	return (str);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/17 02:05:01 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:19:32 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+char	*ft_strcpy(char *s1, const char *s2)
+{
+	int	i;
+
+	i = -1;
+	while (s2[++i] != '\0')
+		s1[i] = s2[i];
+	s1[i] = '\0';
+	return (s1);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strdel.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:19:39 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	ft_strdel(char **as)
+{
+	if (as == NULL)
+		return ;
+	free(*as);
+	*as = NULL;
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/19 09:16:55 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:19:45 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strdup(const char *s1)
+{
+	char	*s2;
+
+	s2 = (char *)malloc(sizeof(char) * (ft_strlen(s1) + 1));
+	if (s2 == NULL)
+		return (NULL);
+	ft_strcpy(s2, (char *)s1);
+	return (s2);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strequ.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:19:50 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int		ft_strequ(const char *s1, const char *s2)
+{
+	size_t	len;
+	size_t	len2;
+
+	if (s1 == NULL || s2 == NULL)
+		return (0);
+	len = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	len = (len < len2) ? len2 : len;
+	return (ft_strnequ(s1, s2, len));
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strfdup.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/19 09:16:55 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:19:58 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strfdup(char **s1, char *s2, int pfree)
+{
+	if (pfree)
+		ft_strdel(s1);
+	return (ft_strdup(s2));
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strfjoin.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/29 10:31:17 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:20:06 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strfjoin(char **s1, char **s2, int pfree)
+{
+	char		*ret;
+
+	ret = ft_strjoin((const char *)*s1, (const char *)*s2);
+	if (pfree == 1 || pfree == 3)
+	{
+		free(*s1);
+		*s1 = NULL;
+	}
+	if (pfree == 2 || pfree == 3)
+	{
+		free(*s2);
+		*s2 = NULL;
+	}
+	return (ret);
+}
+
+char	*ft_strfjoin1(char **s1, char *s2, int pfree)
+{
+	pfree = pfree ? 1 : 0;
+	return (ft_strfjoin(s1, &s2, pfree));
+}
+
+char	*ft_strfjoin2(char *s1, char **s2, int pfree)
+{
+	pfree = pfree ? 2 : 0;
+	return (ft_strfjoin(&s1, s2, pfree));
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strfsplit.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:20:11 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	**ft_strfsplit(char **s, char c, int pfree)
+{
+	char	**ret;
+
+	ret = ft_strsplit((const char *)*s, c);
+	if (pfree == 1)
+	{
+		free(*s);
+		*s = NULL;
+	}
+	return (ret);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strfsub.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/29 10:31:17 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:20:16 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strfsub(char **s, unsigned int start, size_t len, int pfree)
+{
+	char		*ret;
+
+	ret = ft_strsub((const char *)*s, start, len);
+	if (pfree)
+	{
+		free(*s);
+		*s = NULL;
+	}
+	return (ret);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strftrim.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:20:23 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char		*ft_strftrim(char **s, int pfree)
+{
+	char	*ret;
+
+	ret = ft_strtrim(*s);
+	if (pfree == 1)
+	{
+		free(*s);
+		*s = NULL;
+	}
+	return (ret);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strins.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/12/17 13:34:40 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:20:32 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strins(char *s1, char *s2, size_t start, size_t len)
+{
+	char	*ret;
+	char	*tmp;
+
+	ret = ft_strsub(s1, 0, start);
+	tmp = ft_strsub(s1, start + len, ft_strlen(s1 - (start + len)));
+	ret = ft_strfjoin(&ret, &s2, 1);
+	ret = ft_strfjoin(&ret, &tmp, 3);
+	return (ret);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_striter.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:20:38 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	ft_striter(char *s, void (*f)(char *))
+{
+	int		i;
+
+	i = -1;
+	if (s == NULL || f == NULL)
+		return ;
+	while (*(s + (++i)))
+		f(s + i);
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:20:44 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	ft_striteri(char *s, void (*f)(unsigned int, char *))
+{
+	int		i;
+
+	i = -1;
+	if (s == NULL || f == NULL)
+		return ;
+	while (*(s + (++i)))
+		f((unsigned int)i, s + i);
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:20:51 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strjoin(const char *s1, const char *s2)
+{
+	int		i;
+	int		len;
+	char	*s3;
+
+	i = -1;
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	len = ft_strlen(s1);
+	s3 = (char *)malloc(sizeof(char) * (len + ft_strlen(s2) + 1));
+	if (s3 == NULL)
+		return (NULL);
+	ft_strcpy(s3, s1);
+	ft_strcpy(s3 + len, s2);
+	return (s3);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/19 17:30:21 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:20:59 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+size_t	ft_strlcat(char *s1, const char *s2, size_t n)
+{
+	int		i;
+	size_t	len;
+	size_t	len2;
+
+	i = -1;
+	len = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	if (n < len)
+		return (n + len2);
+	while (*(s2 + (++i)) && *(s2 + i) && (i + (int)len) < (int)n - 1)
+		*(s1 + len + i) = *(s2 + i);
+	*(s1 + len + i) = '\0';
+	return (len + len2);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/11 17:21:27 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:21:05 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (*(s + i) != '\0')
+		i++;
+	return (i);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strmap.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:21:11 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strmap(const char *s, char (*f)(char))
+{
+	int		i;
+	char	*s2;
+
+	i = -1;
+	if (s == NULL || f == NULL)
+		return (NULL);
+	s2 = (char *)malloc(sizeof(char) * (ft_strlen(s) + 1));
+	while (*(s + (++i)))
+		*(s2 + i) = (char)f(*(s + i));
+	return (s2);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:21:16 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strmapi(const char *s, char (*f)(unsigned int, char))
+{
+	int		i;
+	char	*s2;
+
+	i = -1;
+	if (s == NULL || f == NULL)
+		return (NULL);
+	s2 = (char *)malloc(sizeof(char) * (ft_strlen(s) + 1));
+	while (*(s + (++i)))
+		*(s2 + i) = (char)f((unsigned int)i, *(s + i));
+	return (s2);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strncat.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/19 17:30:21 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:21:22 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strncat(char *s1, const char *s2, size_t n)
+{
+	int		i;
+	int		len;
+
+	i = -1;
+	len = ft_strlen(s1);
+	while (*(s2 + ++i) && i < (int)n)
+		*(s1 + len + i) = *(s2 + i);
+	*(s1 + len + i) = '\0';
+	return (s1);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/20 13:45:03 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:21:28 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int		ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	i = -1;
+	while (++i < n && *(s1 + i) == *(s2 + i) && *(s1 + i))
+		;
+	return (*(s1 + i) - *(s2 + i));
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/17 02:05:01 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:21:33 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strncpy(char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+	size_t	b;
+
+	i = 0;
+	b = 0;
+	while (++i <= n)
+	{
+		if (*(s2 + (i - 1)) == '\0')
+			b = 1;
+		if (b)
+			*(s1 + (i - 1)) = '\0';
+		else
+			*(s1 + (i - 1)) = *(s2 + (i - 1));
+	}
+	return (s1);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strnequ.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:21:39 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int		ft_strnequ(const char *s1, const char *s2, size_t n)
+{
+	int		i;
+
+	i = -1;
+	if (s1 == NULL || s2 == NULL)
+		return (0);
+	while (*(s1 + (++i)) && *(s1 + i) == *(s2 + i) && i < (int)n)
+		;
+	if ((*(s1 + i) || *(s2 + i)) && *(s1 + i) != *(s2 + i) && i < (int)n)
+		return (0);
+	return (1);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strnew.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:21:43 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strnew(size_t size)
+{
+	char	*s;
+
+	s = (char *)malloc(sizeof(char) * (size + 1));
+	if (s == NULL)
+		return (NULL);
+	ft_memset(s, '\0', size + 1);
+	return (s);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/17 02:05:01 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:21:49 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char		*ft_strnstr(const char *s1, const char *s2, size_t n)
+{
+	int		i;
+	int		len;
+
+	i = -1;
+	len = ft_strlen(s2);
+	if (!*s2)
+		return ((char *)(s1 + ft_strlen(s1 - 1)));
+	while (*(s1 + ++i) && (i + len - 1) < (int)n)
+	{
+		if (!ft_memcmp((s1 + i), s2, len - 1))
+			return ((char *)(s1 + i));
+	}
+	return (NULL);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/21 00:30:43 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:21:55 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strrchr(const char *s, int c)
+{
+	int		i;
+
+	i = (int)ft_strlen((char *)s) + 1;
+	while (--i >= 0)
+	{
+		if (*(s + i) == c)
+			return ((char *)s + i);
+	}
+	if (*(s + i) == c)
+		return ((char *)s + i);
+	return (NULL);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strreplace.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2014/01/31 16:32:06 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:22:04 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+void	ft_strreplace(char *str, char c1, char c2)
+{
+	int		i;
+
+	i = -1;
+	while (*(str + (++i)))
+	{
+		if (*(str + i) == c1)
+			*(str + i) = c2;
+	}
+	return ;
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strsplit.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:22:09 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+static char	*ft_strcut(const char *s, int c)
+{
+	return (ft_strsub(s, 0, ft_strclen(s, c)));
+}
+
+static int	ft_count(const char *s, char c)
+{
+	int		i;
+	int		n;
+	int		a;
+
+	i = -1;
+	n = 0;
+	a = 0;
+	while (*(s + (++i)))
+	{
+		if (*(s + i) == c)
+		{
+			if ((i > 0 && *(s + i - 1) != c) || i <= 0)
+				n++;
+		}
+		else
+			a++;
+	}
+	if (!a)
+		return (0);
+	else if (!n && ft_strlen(s))
+		return (1);
+	return (n);
+}
+
+static void	ft_while(int **n, char ***tab, const char *s, char c)
+{
+	int		len;
+
+	len = 0;
+	while (*(s + **n))
+	{
+		if (*(s + **n) == c)
+		{
+			if (*(s + **n + 1) != c)
+			{
+				*(*n + 1) += 1;
+				len = ft_strclen(s + **n + 1, c);
+				*(*tab + *(*n + 1)) = ft_strnew(len + 1);
+			}
+		}
+		else if ((!**n && *s != c) || (**n && *(s + **n - 1) == c))
+		{
+			*(*n + 1) += (*(*n + 1) < 0) ? 1 : 0;
+			*(*tab + *(*n + 1)) = ft_strcut(s + **n, c);
+			**n += ft_strclen(s + **n, c) - 1;
+		}
+		**n += 1;
+	}
+	return ;
+}
+
+char		**ft_strsplit(const char *s, char c)
+{
+	int		len;
+	int		*n;
+	char	*slen;
+	char	**tab;
+
+	slen = 0;
+	n = (int *)malloc(sizeof(int) * 2);
+	*n = 0;
+	*(n + 1) = -1;
+	if (s == NULL)
+		return (NULL);
+	len = ft_count(s, c);
+	tab = (char **)malloc(sizeof(char *) * (len + 2));
+	*(tab + len) = NULL;
+	if (len <= 0)
+		return (tab);
+	ft_while(&n, &tab, s, c);
+	*(tab + (len + 1)) = NULL;
+	return (tab);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strstr.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/17 02:05:01 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:22:15 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strstr(const char *s1, const char *s2)
+{
+	size_t	len;
+
+	len = ft_strlen(s1);
+	return (ft_strnstr(s1, s2, len + 1));
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strsub.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:22:20 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strsub(const char *s, unsigned int start, size_t len)
+{
+	int		i;
+	char	*s2;
+
+	i = -1;
+	s2 = (char *)malloc(sizeof(char) * (len + 1));
+	if (s == NULL || s2 == NULL)
+		return (NULL);
+	while (++i < (int)len)
+		*(s2 + i) = (char)*(s + (start + i));
+	*(s2 + i) = '\0';
+	return (s2);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strtrim.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:22:26 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+static int	ft_isspace(int c)
+{
+	if (c == ' ' || c == '\n' || c == '\r')
+		return (1);
+	else if (c == '\t' || c == '\v' || c == '\f')
+		return (1);
+	return (0);
+}
+
+static void	ft_strtrim_deleg(const char *s, int *start, int *end)
+{
+	int		i;
+
+	i = -1;
+	while (++i < (int)ft_strlen(s) && ft_isspace(*(s + i)))
+		;
+	*start = i;
+	i = ft_strlen(s) + 1;
+	while (--i >= 0 && ft_isspace(*(s + i)))
+		;
+	*end = i;
+	return ;
+}
+
+char		*ft_strtrim(const char *s)
+{
+	int		start;
+	int		end;
+
+	start = 0;
+	end = 0;
+	if (s == NULL)
+		return (NULL);
+	ft_strtrim_deleg(s, &start, &end);
+	if ((!start && !end) || (end <= start))
+		return (ft_memalloc(1));
+	return (ft_strsub(s, start, end - start + 1));
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_tablen.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/29 10:31:17 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:22:33 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+int		ft_tablen(char **arr)
+{
+	int		i;
+
+	i = 0;
+	if (arr == NULL || *arr == NULL)
+		return (i);
+	while (*(arr + i) != NULL)
+		i++;
+	return (i);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/20 23:13:19 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:22:39 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+int		ft_tolower(int c)
+{
+	if (c >= 'A' && c <= 'Z')
+		c -= 'A' - 'a';
+	return (c);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/11/20 23:13:19 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:22:44 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+int		ft_toupper(int c)
+{
+	if (c >= 'a' && c <= 'z')
+		c += 'A' - 'a';
+	return (c);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_xtoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: birousse <birousse@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2013/09/26 04:36:20 by birousse          #+#    #+#             */
+/*   Updated: 2014/04/29 14:22:50 by birousse         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_xtoa(int n, int on)
+{
+	int		i;
+	int		j;
+	int		multi;
+	char	*ret;
+	char	*val;
+
+	i = -1;
+	ret = ft_strnew(2);
+	val = ft_strdup("0123456789abcdef");
+	multi = (int)ft_strlen(val);
+	while (++i < 2 && (j = 0) == 0)
+	{
+		while (++j <= (int)ft_strlen(val))
+		{
+			if (n < j * multi)
+			{
+				multi = 1;
+				n -= (j - 1) * (int)ft_strlen(val) * multi;
+				*(ret + i) = *(val + j - 1);
+				*(ret + i) -= (on && ft_isalpha(*(ret + i))) ? 'a' - 'A' : 0;
+				break ;
+			}
+		}
+	}
+	return (ret);
+}
